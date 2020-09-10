@@ -37,7 +37,7 @@ namespace Api.Controllers
             var command = new RegisterCommand(dto.Name, dto.Email, dto.Course1, dto.Course1Grade, dto.Course2, dto.Course2Grade);
             var result = _messages.Dispatch(command);
 
-            return result.IsSuccess ? Ok() : Error(result.Error);
+            return FromResult(result);
         }
 
         [HttpDelete("{id}")]
@@ -46,7 +46,7 @@ namespace Api.Controllers
             var command = new UnregisterCommand(id);
             var result = _messages.Dispatch(command);
 
-            return result.IsSuccess ? Ok() : Error(result.Error);
+            return FromResult(result);
         }
 
         [HttpPost("{id}/enrollments")]
@@ -55,7 +55,7 @@ namespace Api.Controllers
             var command = new EnrollCommand(id, dto.Course, dto.Grade);
             var result = _messages.Dispatch(command);
 
-            return result.IsSuccess ? Ok() : Error(result.Error);
+            return FromResult(result);
         }
 
         [HttpPut("{id}/enrollments/{enrollmentNumber}")]
@@ -64,7 +64,7 @@ namespace Api.Controllers
            var command = new TransferCommand(id, enrollmentNumber, dto.Course, dto.Course);
            var result = _messages.Dispatch(command);
 
-           return result.IsSuccess ? Ok() : Error(result.Error);
+           return FromResult(result);
         }
 
         [HttpPost("{id}/enrollments/{enrollmentNumber}/deletion")]
@@ -73,7 +73,7 @@ namespace Api.Controllers
             var command = new DisenrollCommand(id, enrollmentNumber, dto.Comment);
             var result = _messages.Dispatch(command);
 
-            return result.IsSuccess ? Ok() : Error(result.Error);
+            return FromResult(result);
         }
 
         [HttpPut("{id}")]
@@ -82,7 +82,7 @@ namespace Api.Controllers
             var command = new EditPersonalInfoCommand(id, dto.Name, dto.Email);
             var result = _messages.Dispatch(command);
 
-            return result.IsSuccess ? Ok() : Error(result.Error);
+            return FromResult(result);
         }
     }
 }
