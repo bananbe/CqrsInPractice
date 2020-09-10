@@ -77,9 +77,9 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditPersonalInfo(long id, [FromBody] StudentDto dto)
+        public IActionResult EditPersonalInfo(long id, [FromBody] StudentPersonalInfoDto dto)
         {
-            var command = new EditPersonalInfoCommand(dto.Id, dto.Name, dto.Email);
+            var command = new EditPersonalInfoCommand(id, dto.Name, dto.Email);
             var result = _messages.Dispatch(command);
 
             return result.IsSuccess ? Ok() : Error(result.Error);
