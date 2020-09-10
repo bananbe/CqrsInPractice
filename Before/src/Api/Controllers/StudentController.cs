@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Api.Dtos;
-using CSharpFunctionalExtensions;
 using Logic.Students;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,14 @@ namespace Api.Controllers
     public sealed class StudentController : BaseController
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly Messages _messages;
         private readonly StudentRepository _studentRepository;
         private readonly CourseRepository _courseRepository;
 
-        public StudentController(UnitOfWork unitOfWork)
+        public StudentController(UnitOfWork unitOfWork, Messages messages)
         {
             _unitOfWork = unitOfWork;
+            _messages = messages;
             _studentRepository = new StudentRepository(unitOfWork);
             _courseRepository = new CourseRepository(unitOfWork);
         }
@@ -164,9 +165,8 @@ namespace Api.Controllers
                 Name = dto.Name,
                 Id = dto.Id
             };
-            var handler = new EditPersonalInfoCommandHandler(_unitOfWork);
-            Result result = handler.Handle(command);
 
+            var result = _messages.Dispatch(command);
 
             return result.IsSuccess ? Ok() : Error(result.Error);
         }
